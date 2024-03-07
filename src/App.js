@@ -11,6 +11,7 @@ import HomePage from './containers/HomePage.jsx'
 const A = lazy(() => import('./containers/A.jsx'))
 const B = lazy(() => import('./containers/B.jsx'))
 const C = lazy(() => import('./containers/C.jsx'))
+const D = lazy(() => import('./containers/D.jsx'))
 
 import Layout from './component/Layout.jsx'
 
@@ -24,6 +25,7 @@ function App() {
                         <Route path="/A" element={<A />} />
                         <Route path="/B" element={<B />} />
                         <Route path="/C" element={<C />} />
+                        <Route path="/D" element={<D />} />
                     </Routes>
                 </Suspense>
             </Layout>

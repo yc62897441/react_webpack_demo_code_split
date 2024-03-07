@@ -1,9 +1,9 @@
-import { helperABC } from '../helper/helperABC'
-import { helperAC } from '../helper/helperAC'
+import { helper4_C } from '../helper/helper4'
+import { helper5_CD } from '../helper/helper5'
 
 function C() {
-    helperABC()
-    helperAC()
+    helper4_C()
+    helper5_CD()
     console.log('=====')
 
     return <div>C</div>

@@ -17,6 +17,14 @@ const urls = [
         name: 'C',
         url: '/C',
     },
+    {
+        name: 'D',
+        url: '/D',
+    },
+    {
+        name: 'Reactflow',
+        url: '/Reactflow',
+    },
 ]
 
 function Header() {

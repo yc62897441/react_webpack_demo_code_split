@@ -12,6 +12,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 // https://ithelp.ithome.com.tw/articles/10274467?sc=rss.iron
 // webpack-bundle-analyzer
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+// Webpack4分割程式碼的正確姿勢
+// https://juejin.cn/post/6964642182183518215
 
 module.exports = {
     mode: 'production', //mode: 'production' npm run build之後js空格會被壓縮掉
@@ -20,7 +22,8 @@ module.exports = {
     entry: ['./src/index.js'],
     output: {
         path: path.resolve(__dirname, 'build'),
-        filename: '[name].js',
+        // filename: '[name].js',
+        filename: '[name].[contenthash].js',
         //加hash是為了快取問題，版本更新使用者會抓到最新的檔案
 
         // 不要加 publicPath，配合 nginx 設定 root 根目錄路徑即為專案資料夾，靜態檔案都放在專案資料夾，在 index.html 引入 js、css 的路徑為「/main.js」、不要「/homepage/main.js」。
@@ -112,6 +115,7 @@ module.exports = {
         // }),
         // new webpack.optimize.OccurenceOrderPlugin(),
         new BundleAnalyzerPlugin(), // Bundle 分析視圖
+        new webpack.ids.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly // https://webpack.js.org/plugins/hashed-module-ids-plugin/
     ],
     // resolve: {
     //   fallback: { "path": false }
@@ -121,23 +125,35 @@ module.exports = {
         extensions: ['.jsx', '.js', '.tsx', '.ts'],
     },
     // 程式碼切分，抽離第三方套件
-    optimization: {
-        splitChunks: {
-            chunks: 'all',
-            cacheGroups: {
-                vendors: {
-                    test: /[\\/]node_modules[\\/]/,
-                    name: 'vendors',
-                },
-                // 拆分出共用的 chunk
-                default: {
-                    name: 'default',
-                    minChunks: 3,
-                    reuseExistingChunk: true,
-                    enforce: true,
-                    priority: -20,
-                },
-            },
-        },
-    },
+    // optimization: {
+    //     runtimeChunk: 'single',
+    //     splitChunks: {
+    //         chunks: 'all',
+    //         maxInitialRequests: Infinity,
+    //         minSize: 0,
+    //         cacheGroups: {
+    //             vendors: {
+    //                 test: /[\\/]node_modules[\\/]/,
+    //                 // name: 'vendors',
+    //                 name(module) {
+    //                     // 取得每個npm套件的名稱
+    //                     const packageName =
+    //                         module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)?.[1] ||
+    //                         Math.random().toString()
+
+    //                     // 對npm的包名子加上前綴，並去掉@
+    //                     return `npm.${packageName.replace('@', '')}`
+    //                 },
+    //             },
+    //             // 拆分出共用的 chunk
+    //             default: {
+    //                 name: 'default',
+    //                 minChunks: 2,
+    //                 reuseExistingChunk: true,
+    //                 enforce: true,
+    //                 priority: -20,
+    //             },
+    //         },
+    //     },
+    // },
 }

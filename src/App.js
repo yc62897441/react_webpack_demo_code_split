@@ -9,17 +9,17 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import HomePage from './containers/HomePage.jsx'
 
 // 未使用 React 動態載入
-import A from './containers/A.jsx'
-import B from './containers/B.jsx'
-import C from './containers/C.jsx'
-import D from './containers/D.jsx'
-import Reactflow from './containers/Reactflow.jsx'
+// import A from './containers/A.jsx'
+// import B from './containers/B.jsx'
+// import C from './containers/C.jsx'
+// import D from './containers/D.jsx'
+// import Reactflow from './containers/Reactflow.jsx'
 // 使用 React 動態載入
-// const A = lazy(() => import('./containers/A.jsx'))
-// const B = lazy(() => import('./containers/B.jsx'))
-// const C = lazy(() => import('./containers/C.jsx'))
-// const D = lazy(() => import('./containers/D.jsx'))
-// const Reactflow = lazy(() => import('./containers/Reactflow.jsx'))
+const A = lazy(() => import('./containers/A.jsx'))
+const B = lazy(() => import('./containers/B.jsx'))
+const C = lazy(() => import('./containers/C.jsx'))
+const D = lazy(() => import('./containers/D.jsx'))
+const Reactflow = lazy(() => import('./containers/Reactflow.jsx'))
 
 import Layout from './component/Layout.jsx'
 
@@ -27,6 +27,7 @@ function App() {
     return (
         <BrowserRouter>
             <Layout>
+                {/* 特別注意要使用 Suspense */}
                 <Suspense fallback={<div>Loading...</div>}>
                     <Routes>
                         <Route path="/" element={<HomePage />} />

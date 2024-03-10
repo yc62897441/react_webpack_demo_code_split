@@ -56,11 +56,7 @@ module.exports = {
                     loader: 'babel-loader',
                     options: {
                         presets: ['@babel/preset-env', '@babel/preset-react'],
-                        plugins: [
-                            '@babel/plugin-transform-runtime',
-                            '@babel/plugin-transform-react-jsx',
-                            '@babel/plugin-transform-react-jsx-compat',
-                        ],
+                        plugins: ['@babel/plugin-transform-runtime', '@babel/plugin-transform-react-jsx', '@babel/plugin-transform-react-jsx-compat'],
                     },
                 },
             },
@@ -125,35 +121,35 @@ module.exports = {
         extensions: ['.jsx', '.js', '.tsx', '.ts'],
     },
     // 程式碼切分，抽離第三方套件
-    // optimization: {
-    //     runtimeChunk: 'single',
-    //     splitChunks: {
-    //         chunks: 'all',
-    //         maxInitialRequests: Infinity,
-    //         minSize: 0,
-    //         cacheGroups: {
-    //             vendors: {
-    //                 test: /[\\/]node_modules[\\/]/,
-    //                 // name: 'vendors',
-    //                 name(module) {
-    //                     // 取得每個npm套件的名稱
-    //                     const packageName =
-    //                         module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)?.[1] ||
-    //                         Math.random().toString()
+    optimization: {
+        // runtimeChunk: 'single',
+        splitChunks: {
+            chunks: 'all',
+            // maxInitialRequests: Infinity,
+            // minSize: 0,
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    // name: 'vendors',
+                    name(module) {
+                        // 取得每個npm套件的名稱
+                        const packageName =
+                            module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)?.[1] ||
+                            Math.random().toString()
 
-    //                     // 對npm的包名子加上前綴，並去掉@
-    //                     return `npm.${packageName.replace('@', '')}`
-    //                 },
-    //             },
-    //             // 拆分出共用的 chunk
-    //             default: {
-    //                 name: 'default',
-    //                 minChunks: 2,
-    //                 reuseExistingChunk: true,
-    //                 enforce: true,
-    //                 priority: -20,
-    //             },
-    //         },
-    //     },
-    // },
+                        // 對npm的包名子加上前綴，並去掉@
+                        return `npm.${packageName.replace('@', '')}`
+                    },
+                },
+                // 拆分出共用的 chunk
+                // default: {
+                //     name: 'default',
+                //     minChunks: 2,
+                //     reuseExistingChunk: true,
+                //     enforce: true,
+                //     priority: -20,
+                // },
+            },
+        },
+    },
 }

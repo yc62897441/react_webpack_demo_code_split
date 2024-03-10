@@ -23,6 +23,8 @@ const Reactflow = lazy(() => import('./containers/Reactflow.jsx'))
 
 import Layout from './component/Layout.jsx'
 
+import './index.css'
+
 function App() {
     return (
         <BrowserRouter>

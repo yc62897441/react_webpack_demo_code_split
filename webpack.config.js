@@ -110,7 +110,7 @@ module.exports = {
         //     },
         // }),
         // new webpack.optimize.OccurenceOrderPlugin(),
-        // new BundleAnalyzerPlugin(), // Bundle 分析視圖
+        new BundleAnalyzerPlugin(), // Bundle 分析視圖
         new webpack.ids.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly // https://webpack.js.org/plugins/hashed-module-ids-plugin/
     ],
     // resolve: {
@@ -122,33 +122,31 @@ module.exports = {
     },
     // 程式碼切分，抽離第三方套件
     optimization: {
-        // runtimeChunk: 'single',
+        runtimeChunk: 'single', // 創建一個在所有生成 chunk 之間共享的 runtime 文件，文件預設名稱為 runtime.js
         splitChunks: {
             chunks: 'all',
-            // maxInitialRequests: Infinity,
-            // minSize: 0,
+            maxInitialRequests: Infinity, // 最多可拆分幾個chunks
+            minSize: 0, // 在壓縮前的最小大小
             cacheGroups: {
                 vendors: {
                     test: /[\\/]node_modules[\\/]/,
                     // name: 'vendors',
                     name(module) {
                         // 取得每個npm套件的名稱
-                        const packageName =
-                            module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)?.[1] ||
-                            Math.random().toString()
+                        const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)?.[1] || Math.random().toString()
 
                         // 對npm的包名子加上前綴，並去掉@
                         return `npm.${packageName.replace('@', '')}`
                     },
                 },
                 // 拆分出共用的 chunk
-                // default: {
-                //     name: 'default',
-                //     minChunks: 2,
-                //     reuseExistingChunk: true,
-                //     enforce: true,
-                //     priority: -20,
-                // },
+                default: {
+                    name: 'default',
+                    minChunks: 2,
+                    reuseExistingChunk: true,
+                    enforce: true,
+                    priority: -20,
+                },
             },
         },
     },
